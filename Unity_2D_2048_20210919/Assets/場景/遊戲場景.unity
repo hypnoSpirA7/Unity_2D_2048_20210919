@@ -6812,6 +6812,7 @@ MonoBehaviour:
   - {fileID: 1042211408}
   goNumberBlock: {fileID: 8399412341825495277, guid: 8325a0e5be58ba242b878dc73e23a70b, type: 3}
   traCanvas2048: {fileID: 1485839636}
+  direction: 0
 --- !u!4 &1515310011
 Transform:
   m_ObjectHideFlags: 0
