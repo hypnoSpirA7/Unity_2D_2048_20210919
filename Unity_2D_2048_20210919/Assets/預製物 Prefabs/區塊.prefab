@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 8399412341825495276}
   - component: {fileID: 8399412341825495278}
   - component: {fileID: 8399412341825495279}
+  - component: {fileID: 1376787234857438701}
   m_Layer: 5
   m_Name: "\u5340\u584A"
   m_TagString: Untagged
@@ -232,6 +233,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &1376787234857438701
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8399412341825495277}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 088de46f1819a794bb0eeaf8478411b8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8399412341966829095
 GameObject:
   m_ObjectHideFlags: 0
