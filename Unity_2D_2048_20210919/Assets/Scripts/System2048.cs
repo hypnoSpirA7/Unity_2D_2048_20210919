@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using JetBrains.Annotations;
 
 /// <summary>
 /// 2048系統
@@ -27,6 +28,7 @@ public class System2048 : MonoBehaviour
     #region 欄位:私人
     // 私人欄位顯示在屬性面板上 
     [SerializeField]
+    private stateTurn stateTurm;
     private Direction direction;
     /// <summary>
     /// 所有區塊資料
@@ -208,6 +210,9 @@ public class System2048 : MonoBehaviour
         #endregion
     }
 
+    [Header("敵人回合事件")]
+    public UnityEvent onEnemyTurn;
+
     /// <summary>
     /// 檢查並移動區塊
     /// </summary>
@@ -218,7 +223,8 @@ public class System2048 : MonoBehaviour
         BlockData blockCheck = new BlockData();             // 檢查所有的區塊
         bool canMove = false;                               // 是否可以移動區塊
         bool sameNumber = false;                            // 是否相同數字
-
+        int sameNumberCount = 0;                            // 相同數字合併次數
+        bool canMoveBlockAll = false;                       // 是否可以移動區塊
 
         switch (direction)
         {
@@ -226,6 +232,8 @@ public class System2048 : MonoBehaviour
 
                 for (int i = 0; i < blocks.GetLength(0); i++)
                 {
+                    sameNumberCount = 0;                      // 相同數字合併次數歸零
+
                     for (int j = blocks.GetLength(1) - 2; j >= 0; j--)
                     {
                         blockOriginal = blocks[i, j];
@@ -233,7 +241,7 @@ public class System2048 : MonoBehaviour
                         // 如果 該區塊的數字 為零 就 繼續 (跳過此迴圈執行下個迴圈)
                         if (blockOriginal.number == 0) continue;
 
-                        for (int k = j + 1; k < blocks.GetLength(1); k++)
+                        for (int k = j + 1; k < blocks.GetLength(1) - sameNumberCount; k++)
                         {
                             if (blocks[i, k].number == 0)
                             {
@@ -245,6 +253,7 @@ public class System2048 : MonoBehaviour
                                 blockCheck = blocks[i, k];
                                 canMove = true;
                                 sameNumber = true;
+                                sameNumberCount++;
                             }
                             // 否則 如果 檢查區塊 的數字 與 原本區塊 的數字 不相同 就不移動、數字不相同並中斷
                             else if (blocks[i, k].number != blockOriginal.number)
@@ -256,6 +265,7 @@ public class System2048 : MonoBehaviour
                         // 如果 可以移動 在執行 移動區塊(原始、檢查、是否相同數字)
                         if (canMove)
                         {
+                            canMoveBlockAll = true;                                     // 全部區塊內可以移動
                             canMove = false;
                             MoveBlock(blockOriginal, blockCheck, sameNumber);
                             sameNumber = false;
@@ -269,6 +279,8 @@ public class System2048 : MonoBehaviour
 
                 for (int i = 0; i < blocks.GetLength(0); i++)
                 {
+                    sameNumberCount = 0;
+
                     for (int j = 1; j < blocks.GetLength(1); j++)
                     {
                         blockOriginal = blocks[i, j];
@@ -276,10 +288,8 @@ public class System2048 : MonoBehaviour
                         // 如果 該區塊的數字 為零 就 繼續 (跳過此迴圈執行下個迴圈)
                         if (blockOriginal.number == 0) continue;
 
-                        for (int k = j - 1; k >= 0 ; k--)
+                        for (int k = j - 1; k >= 0 + sameNumberCount; k--)
                         {
-                            print("檢查次數:" + k);
-
                             if (blocks[i, k].number == 0)
                             {
                                 blockCheck = blocks[i,k];
@@ -290,6 +300,7 @@ public class System2048 : MonoBehaviour
                                 blockCheck = blocks[i, k];
                                 canMove = true;
                                 sameNumber = true;
+                                sameNumberCount++;
                             }
                             else if (blocks[i, k].number != blockOriginal.number)
                             {
@@ -300,6 +311,7 @@ public class System2048 : MonoBehaviour
                         // 如果 可以移動 在執行 移動區塊(原始，檢查，是否相同數字)
                         if (canMove)
                         {
+                            canMoveBlockAll = true;                                     // 全部區塊內可以移動
                             canMove = false;
                             MoveBlock(blockOriginal, blockCheck, sameNumber);
                             sameNumber = false;
@@ -313,17 +325,16 @@ public class System2048 : MonoBehaviour
 
                 for (int i = 0; i < blocks.GetLength(1); i++)
                 {
+                    sameNumberCount = 0;
                     for (int j = 1; j < blocks.GetLength(0); j++)
                     {
-                        blockOriginal = blocks[i, j];
+                        blockOriginal = blocks[j ,i];
 
                         // 如果 該區塊的數字 為零 就 繼續 (跳過此迴圈執行下個迴圈)
                         if (blockOriginal.number == 0) continue;
 
-                        for (int k = j - 1; k >= 0; k--)
+                        for (int k = j - 1; k >= 0 + sameNumberCount; k--)
                         {
-                            print("檢查次數:" + k);
-
                             if (blocks[k, i].number == 0)
                             {
                                 blockCheck = blocks[k, i];
@@ -334,6 +345,7 @@ public class System2048 : MonoBehaviour
                                 blockCheck = blocks[k, i];
                                 canMove = true;
                                 sameNumber = true;
+                                sameNumberCount++;
                             }
                             else if (blocks[k, i].number != blockOriginal.number)
                             {
@@ -344,6 +356,7 @@ public class System2048 : MonoBehaviour
                         // 如果 可以移動 在執行 移動區塊(原始，檢查，是否相同數字)
                         if (canMove)
                         {
+                            canMoveBlockAll = true;                                     // 全部區塊內可以移動
                             canMove = false;
                             MoveBlock(blockOriginal, blockCheck, sameNumber);
                             sameNumber = false;
@@ -357,14 +370,15 @@ public class System2048 : MonoBehaviour
 
                 for (int i = 0; i < blocks.GetLength(1); i++)
                 {
+                    sameNumberCount = 0;
                     for (int j = blocks.GetLength(0) - 2; j >= 0; j--)
                     {
-                        blockOriginal = blocks[i, j];
+                        blockOriginal = blocks[j, i];
 
                         // 如果 該區塊的數字 為零 就 繼續 (跳過此迴圈執行下個迴圈)
                         if (blockOriginal.number == 0) continue;
 
-                        for (int k = j + 1; k <  0; k--)
+                        for (int k = j + 1; k <  blocks.GetLength(0) - sameNumberCount; k++)
                         {
                             print("檢查次數:" + k);
 
@@ -378,6 +392,7 @@ public class System2048 : MonoBehaviour
                                 blockCheck = blocks[k, i];
                                 canMove = true;
                                 sameNumber = true;
+                                sameNumberCount++;
                             }
                             else if (blocks[k, i].number != blockOriginal.number)
                             {
@@ -388,6 +403,7 @@ public class System2048 : MonoBehaviour
                         // 如果 可以移動 在執行 移動區塊(原始，檢查，是否相同數字)
                         if (canMove)
                         {
+                            canMoveBlockAll = true;                                     // 全部區塊內可以移動
                             canMove = false;
                             MoveBlock(blockOriginal, blockCheck, sameNumber);
                             sameNumber = false;
@@ -399,10 +415,27 @@ public class System2048 : MonoBehaviour
 
         }
 
-        CreateRandomNumberBlock();                          // 移動後 生成下一顆區塊
+        if (canMoveBlockAll)
+        {
+            onEnemyTurn.Invoke();
+            stateTurm = stateTurn.Enemy;
+            CreateRandomNumberBlock();                          // 移動後 生成下一顆區塊
+        }
+        else 
+        {
+            print("不能移動");
+        }
     }
     #endregion
 
+
+    #region 方法：公開
+
+    public void ChangeToMyTurn()
+    {
+        stateTurm = stateTurn.My;
+    }
+    #endregion
     /// <summary>
     /// 移動區塊
     /// </summary>
@@ -472,4 +505,8 @@ public class BlockData
 public enum Direction
 {
     None,Left,Right,Up,Down
+}
+ public enum stateTurn
+{
+    My, Enemy
 }
