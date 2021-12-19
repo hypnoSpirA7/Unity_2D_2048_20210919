@@ -1303,7 +1303,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: ba00f535b611938429188ef400ca7e8f, type: 3}
     m_FontSize: 144
     m_FontStyle: 1
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 144
     m_Alignment: 4
@@ -1312,7 +1312,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "(\uFF9F\u2200\uFF61)"
+  m_Text: SuckCatEveryDay
 --- !u!222 &1199354858
 CanvasRenderer:
   m_ObjectHideFlags: 0
