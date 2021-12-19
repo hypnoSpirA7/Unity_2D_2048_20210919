@@ -1300,7 +1300,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: ba00f535b611938429188ef400ca7e8f, type: 3}
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 144
     m_FontStyle: 1
     m_BestFit: 0
@@ -1312,7 +1312,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Battle 2048
+  m_Text: "(\u2070\u25BDo)\r\n"
 --- !u!222 &1199354858
 CanvasRenderer:
   m_ObjectHideFlags: 0

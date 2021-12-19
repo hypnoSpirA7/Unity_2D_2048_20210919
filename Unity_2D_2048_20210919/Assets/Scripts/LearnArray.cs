@@ -1,6 +1,4 @@
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 
 public class LearnArray : MonoBehaviour
 {
