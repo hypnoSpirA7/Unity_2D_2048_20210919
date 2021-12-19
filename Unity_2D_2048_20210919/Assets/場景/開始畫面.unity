@@ -1312,7 +1312,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "(\u2070\u25BDo)\r\n"
+  m_Text: "(\uFF9F\u2200\uFF61)\n"
 --- !u!222 &1199354858
 CanvasRenderer:
   m_ObjectHideFlags: 0
